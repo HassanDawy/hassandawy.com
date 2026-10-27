@@ -5,8 +5,7 @@ import { useMemo } from "react";
 import { Markdown } from "@/components/content/Markdown";
 import { formatDate } from "@/lib/format";
 import { useFs } from "@/lib/fs/provider";
-import { resolve } from "@/lib/fs/resolve";
-import type { FileNode } from "@/lib/fs/types";
+import { notesInOrder } from "@/lib/fs/notes";
 import { useWindows } from "@/lib/store/windows";
 import type { AppProps } from "../types";
 import { NoteList } from "./NoteList";
@@ -16,12 +15,7 @@ import { NoteList } from "./NoteList";
 // Terminal or Finder switches this window to that note.
 export default function Notes({ windowId, props }: AppProps) {
   const tree = useFs();
-  const notes = useMemo(() => {
-    const dir = resolve(tree, "~/notes");
-    const all = dir?.type === "dir" ? dir.children.filter((n): n is FileNode => n.type === "file") : [];
-    // The tree is already newest first; the pinned note goes on top.
-    return [...all.filter((n) => n.meta.pinned), ...all.filter((n) => !n.meta.pinned)];
-  }, [tree]);
+  const notes = useMemo(() => notesInOrder(tree), [tree]);
 
   const selected = notes.find((n) => n.path === props.path) ?? notes[0];
   const select = (path: string) => useWindows.getState().setProps(windowId, { path });

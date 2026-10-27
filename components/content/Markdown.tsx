@@ -1,10 +1,9 @@
-"use client";
-
 import ReactMarkdown, { type Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
 
 // Element styles for rendered Markdown: Source Serif body, small-caps section
 // headings (the "The problem / What I built" layout), links open in a new tab.
+// No "use client": the mobile page renders it on the server, the apps in the browser.
 const components: Components = {
   h1: (p) => <h1 className="mt-6 mb-3 font-serif text-[26px] font-semibold" {...p} />,
   h2: (p) => (

@@ -1,25 +1,16 @@
 "use client";
 
 import { ArrowUpRight } from "lucide-react";
-import { formatPeriod } from "@/lib/format";
 import type { FsMeta } from "@/lib/fs/types";
 import { tagsOf } from "@/lib/fs/tags";
 import { useWindows } from "@/lib/store/windows";
-
-interface Link {
-  label: string;
-  href: string;
-}
+import { strings, workKicker, workLinks } from "@/lib/work";
 
 // Header for a project or experience entry: dates, title, summary, key numbers,
 // skills and methods, links. Skill chips open the Skills app on that tag.
 export function WorkHeader({ meta }: { meta: FsMeta }) {
-  const strings = (v: unknown) => (Array.isArray(v) ? v.map(String) : []);
-  const links: Link[] = [
-    ...(typeof meta.repo === "string" ? [{ label: `GitHub: ${meta.repo}`, href: `https://github.com/${meta.repo}` }] : []),
-    ...((meta.links as Link[] | undefined) ?? []),
-  ];
-  const kicker = [meta.org, formatPeriod(meta.start, meta.end), meta.location].filter(Boolean).join(" · ");
+  const links = workLinks(meta);
+  const kicker = workKicker(meta);
 
   return (
     <header className="mb-6 border-b border-[#E2DFD8] pb-6">
