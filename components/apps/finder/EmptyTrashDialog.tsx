@@ -34,8 +34,7 @@ export function EmptyTrashDialog({ onClose }: { onClose: () => void }) {
           You can&apos;t empty this Trash.
         </h2>
         <p id="empty-trash-message" className="text-xs leading-relaxed text-[#4A4E57]">
-          Every project in here taught me something. I&apos;m keeping them for the lessons (and a little for the
-          guilt).
+          Every project in here taught me something. I&apos;m keeping them for the lessons.
         </p>
         <button
           ref={okRef}
