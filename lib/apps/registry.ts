@@ -1,7 +1,7 @@
 import { Folder, NotebookPen, SquareTerminal, type LucideIcon } from "lucide-react";
 
-// App registry. Lazily loaded components are added as each app is built
-// (TASKS.md 5+); the window manager and Dock only need this metadata.
+// App metadata used by the window manager, Dock and MenuBar. The app components
+// live in components/apps/index.ts, so importing this never pulls in app code.
 export type AppId = "terminal" | "finder" | "notes";
 
 export interface AppDef {
@@ -13,6 +13,8 @@ export interface AppDef {
   icon: LucideIcon;
   /** Dock tile background and icon colors. */
   tile: { bg: string; fg: string };
+  /** Window chrome: light (default) or dark like the Terminal. */
+  theme?: "light" | "dark";
 }
 
 export const apps: Record<AppId, AppDef> = {
@@ -30,6 +32,7 @@ export const apps: Record<AppId, AppDef> = {
     defaultSize: { w: 600, h: 400 },
     icon: SquareTerminal,
     tile: { bg: "#12161D", fg: "#F2A93B" },
+    theme: "dark",
   },
   notes: {
     id: "notes",

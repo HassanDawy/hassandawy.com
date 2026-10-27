@@ -2,10 +2,11 @@ import { beforeEach, describe, expect, it } from "vitest";
 import {
   CASCADE_OFFSET,
   CASCADE_ORIGIN,
-  MENU_BAR_HEIGHT,
   focusedWindowId,
   useWindows,
 } from "./windows";
+
+const AREA = useWindows.getInitialState().viewport;
 
 const store = () => useWindows.getState();
 const win = (id: string) => store().windows.find((w) => w.id === id)!;
@@ -125,13 +126,13 @@ describe("focus and z-order", () => {
 });
 
 describe("move, resize and maximize", () => {
-  it("keeps windows inside the viewport and below the menu bar", () => {
+  it("keeps windows inside the desktop area", () => {
     const a = store().open("terminal");
     store().move(a, -100, 0);
-    expect(win(a)).toMatchObject({ x: 0, y: MENU_BAR_HEIGHT });
+    expect(win(a)).toMatchObject({ x: 0, y: 0 });
 
     store().move(a, 5000, 5000);
-    expect(win(a)).toMatchObject({ x: 1440 - 600, y: 900 - 400 });
+    expect(win(a)).toMatchObject({ x: AREA.w - 600, y: AREA.h - 400 });
   });
 
   it("clamps size to the viewport and a minimum", () => {
@@ -140,7 +141,7 @@ describe("move, resize and maximize", () => {
     expect(win(a)).toMatchObject({ w: 320, h: 200 });
 
     store().resize(a, 9999, 9999);
-    expect(win(a)).toMatchObject({ x: 0, y: MENU_BAR_HEIGHT, w: 1440, h: 900 - MENU_BAR_HEIGHT });
+    expect(win(a)).toMatchObject({ x: 0, y: 0, w: AREA.w, h: AREA.h });
   });
 
   it("re-clamps open windows when the viewport shrinks", () => {

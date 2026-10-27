@@ -1,9 +1,11 @@
 import { create } from "zustand";
 import { apps, type AppId } from "@/lib/apps/registry";
 
+// Window coordinates are relative to the desktop area below the menu bar, so
+// (0, 0) is just under it and the viewport is that area's size.
 export const MENU_BAR_HEIGHT = 30;
 export const CASCADE_OFFSET = 24;
-export const CASCADE_ORIGIN = { x: 80, y: MENU_BAR_HEIGHT + 40 };
+export const CASCADE_ORIGIN = { x: 80, y: 40 };
 export const MIN_SIZE = { w: 320, h: 200 };
 
 export type WindowProps = Record<string, unknown>;
@@ -38,13 +40,13 @@ interface WindowStore {
   toggleMaximize: (id: string) => void;
   move: (id: string, x: number, y: number) => void;
   resize: (id: string, w: number, h: number) => void;
-  /** Called by the Desktop on mount and on window resize. */
+  /** Desktop area size (below the menu bar); set by the Desktop on mount and resize. */
   setViewport: (w: number, h: number) => void;
 }
 
 export const useWindows = create<WindowStore>()((set, get) => ({
   windows: [],
-  viewport: { w: 1440, h: 900 },
+  viewport: { w: 1440, h: 900 - MENU_BAR_HEIGHT },
   nextId: 1,
 
   open: (appId, props) => {
@@ -126,16 +128,15 @@ function maxZ(windows: WindowState[]): number {
 
 type Rect = Pick<WindowState, "x" | "y" | "w" | "h">;
 
-// Keeps a window fully inside the viewport and below the menu bar.
+// Keeps a window fully inside the desktop area.
 export function clampRect({ x, y, w, h }: Rect, viewport: Viewport): Rect {
-  const maxH = viewport.h - MENU_BAR_HEIGHT;
   const width = Math.min(Math.max(w, MIN_SIZE.w), viewport.w);
-  const height = Math.min(Math.max(h, MIN_SIZE.h), maxH);
+  const height = Math.min(Math.max(h, MIN_SIZE.h), viewport.h);
   return {
     w: width,
     h: height,
     x: Math.min(Math.max(x, 0), viewport.w - width),
-    y: Math.min(Math.max(y, MENU_BAR_HEIGHT), viewport.h - height),
+    y: Math.min(Math.max(y, 0), viewport.h - height),
   };
 }
 
