@@ -1,13 +1,5 @@
-import { Desktop } from "@/components/os/Desktop";
-import { getTree } from "@/lib/fs/get-tree";
+import { DesktopPage } from "@/components/os/DesktopPage";
 
-export default async function Home() {
-  const tree = await getTree();
-
-  return (
-    <main>
-      <h1 className="sr-only">Hassan Dawy</h1>
-      <Desktop tree={tree} />
-    </main>
-  );
+export default function Home() {
+  return <DesktopPage />;
 }
