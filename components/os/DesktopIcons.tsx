@@ -1,9 +1,9 @@
 "use client";
 
-import { Mail } from "lucide-react";
 import type { ReactNode } from "react";
 import { useFs } from "@/lib/fs/provider";
 import { resolve } from "@/lib/fs/resolve";
+import { AppIcon } from "./AppIcon";
 
 interface Link {
   label: string;
@@ -21,16 +21,12 @@ export function DesktopIcons() {
     <div className="absolute top-14 right-7 flex flex-col items-center gap-[22px] text-xs text-menubar-text">
       {resume && (
         <DesktopIcon label="Resume.pdf" href={String(resume.meta.href)} newTab>
-          <span className="bg-window flex h-16 w-[52px] items-end justify-center rounded pb-2 text-[10px] font-bold text-[#B42318]">
-            PDF
-          </span>
+          <AppIcon kind="pdf" size={56} />
         </DesktopIcon>
       )}
       {email && (
         <DesktopIcon label="Contact" href={email.href}>
-          <span className="flex size-14 items-center justify-center rounded-xl bg-[#1E2A3D]">
-            <Mail size={28} strokeWidth={1.8} aria-hidden />
-          </span>
+          <AppIcon kind="mail" size={56} />
         </DesktopIcon>
       )}
     </div>

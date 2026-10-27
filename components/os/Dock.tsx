@@ -1,13 +1,14 @@
 "use client";
 
-import { Trash2 } from "lucide-react";
 import type { ReactNode } from "react";
 import { apps, type AppId } from "@/lib/apps/registry";
 import { useFs } from "@/lib/fs/provider";
 import { resolve } from "@/lib/fs/resolve";
 import { useWindows, type WindowProps } from "@/lib/store/windows";
+import { AppIcon } from "./AppIcon";
 
-const DOCK_APPS: AppId[] = ["finder", "terminal", "notes", "skills"];
+// Each id is both an app and an AppIcon kind.
+const DOCK_APPS = ["finder", "terminal", "notes", "skills"] as const;
 
 export function Dock() {
   const tree = useFs();
@@ -27,36 +28,20 @@ export function Dock() {
       aria-label="Dock"
       className="absolute bottom-3.5 left-1/2 z-[9999] flex h-[72px] -translate-x-1/2 items-center gap-3 rounded-[20px] border border-white/12 bg-[rgba(30,38,52,0.72)] px-3.5 backdrop-blur-md"
     >
-      {DOCK_APPS.map((id) => {
-        const app = apps[id];
-        const Icon = app.icon;
-        return (
-          <DockItem key={id} label={app.title} running={windows.some((w) => w.appId === id)}>
-            <button
-              type="button"
-              aria-label={app.title}
-              onClick={() => launch(id)}
-              className="flex size-[52px] items-center justify-center rounded-xl"
-              style={{ background: app.tile.bg, color: app.tile.fg }}
-            >
-              <Icon size={28} strokeWidth={1.8} aria-hidden />
-            </button>
-          </DockItem>
-        );
-      })}
+      {DOCK_APPS.map((id) => (
+        <DockItem key={id} label={apps[id].title} running={windows.some((w) => w.appId === id)}>
+          <button type="button" aria-label={apps[id].title} onClick={() => launch(id)} className="block rounded-[12px]">
+            <AppIcon kind={id} />
+          </button>
+        </DockItem>
+      ))}
 
       <span className="h-10 w-px bg-white/20" aria-hidden />
 
       {resume && (
         <DockItem label="Resume">
-          <a
-            href={String(resume.meta.href)}
-            target="_blank"
-            rel="noopener"
-            aria-label="Resume (PDF)"
-            className="bg-window flex size-[52px] items-center justify-center rounded-xl text-[11px] font-bold text-[#B42318]"
-          >
-            PDF
+          <a href={String(resume.meta.href)} target="_blank" rel="noopener" aria-label="Resume (PDF)" className="block rounded-[12px]">
+            <AppIcon kind="pdf" />
           </a>
         </DockItem>
       )}
@@ -65,9 +50,9 @@ export function Dock() {
           type="button"
           aria-label="Trash"
           onClick={() => launch("finder", { path: "~/.trash" })}
-          className="flex size-[52px] items-center justify-center rounded-xl bg-[#1E2A3D] text-menubar-text"
+          className="block rounded-[12px]"
         >
-          <Trash2 size={26} strokeWidth={1.8} aria-hidden />
+          <AppIcon kind="trash" />
         </button>
       </DockItem>
     </nav>
