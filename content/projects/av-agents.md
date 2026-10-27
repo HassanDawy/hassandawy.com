@@ -28,9 +28,9 @@ with escalation states that hand design questions back to a human.
 - **Coder:** a ReAct-style tool-calling agent with file, shell and web tools, sandboxed to the repo.
 - **Reviewers:** Claude Opus and GPT-5.6 see identical payloads independently. A failed reviewer call counts as a reject.
 
-It ran on GitHub Actions ticks and built a Fastify/React app of about 80k lines
-on AWS CDK (ECS Fargate, Aurora, SQS FIFO, Cognito, cdk-nag).
-[CONFIRM: the resume says the backend is deployed on AWS; the content file says it is synthesized but not yet deployed.]
+It ran on GitHub Actions ticks and built a Fastify/React app of about 80k lines.
+Its backend is deployed on AWS with AWS CDK (ECS Fargate, Aurora, SQS FIFO,
+Cognito, cdk-nag).
 
 ## The hard part
 

@@ -26,5 +26,4 @@ diamond) to open-world survival, where many more behaviors can earn reward?
 ## Results
 
 I co-authored a technical research post on the work, published on LessWrong:
-*From Diamond Mining to Open-World Survival: Alignment and…*
-[ADD FULL TITLE]
+*From Diamond Mining to Open-World Survival: Alignment and Emergent Behavior in Minecraft Agents*.

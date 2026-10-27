@@ -1,16 +1,14 @@
 ---
 title: "Fed Signal Chatbot"
 summary: "A RAG system that reads Federal Reserve statements and calls each FOMC meeting hawkish, dovish or neutral, grounded in the source text."
-start: "2026-03"
+start: "2026-04"
 end: "2026-05"
 featured: true
 repo: "HassanDawy/fed-signal-chatbot"
 metrics: ["91.7% post-cutoff accuracy with BM25", "175 FOMC statements indexed"]
 skills: ["Python", "OpenAI API", "Web scraping"]
-methods: ["RAG", "Hybrid retrieval (BM25 + dense)", "Reciprocal Rank Fusion", "Chain-of-thought prompting", "Few-shot prompting", "Retrieval evaluation (Hit@k)"]
+methods: ["RAG", "Hybrid retrieval (BM25 + dense)", "Reciprocal Rank Fusion", "Chain-of-thought prompting", "Few-shot prompting", "Retrieval evaluation (Hit@k)", "Training-cutoff evaluation split"]
 ---
-
-[CONFIRM: exact dates. The resume says March–May 2026; you first said April 2026.]
 
 ## The problem
 

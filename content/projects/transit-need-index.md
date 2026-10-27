@@ -2,7 +2,7 @@
 title: "Transit Need Index"
 summary: "An open-source index of which NYC neighborhoods would gain the most from free buses."
 start: "2026-02"
-end: "2026-03"
+end: "2026-04"
 featured: true
 repo: "BU-Data-Science-Association/buses"
 links:

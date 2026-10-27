@@ -38,6 +38,10 @@ describe("content/", () => {
       expect(note.name, note.path).toMatch(/^\d{4}-\d{2}-\d{2}-[\w-]+\.md$/);
       expect(typeof note.meta.title, `${note.path}: title`).toBe("string");
       expect(note.meta.date, `${note.path}: date`).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+      expect(note.name.startsWith(String(note.meta.date)), `${note.path}: name matches date`).toBe(true);
+      if (note.meta.external !== undefined) {
+        expect(note.meta.external, `${note.path}: external`).toMatch(/^https:\/\//);
+      }
     }
   });
 
