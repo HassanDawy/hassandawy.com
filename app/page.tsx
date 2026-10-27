@@ -1,10 +1,14 @@
-// Placeholder until the desktop shell lands (TASKS.md task 4).
+import { Desktop } from "@/components/os/Desktop";
+import { buildTree } from "@/lib/fs/build-tree";
+
 export default function Home() {
+  // Sync fs reads, so this is prerendered at build time.
+  const tree = buildTree();
+
   return (
-    <main className="bg-desktop-grid flex h-full flex-col items-center justify-center gap-4">
-      <h1 className="text-2xl font-semibold">Hassan Dawy</h1>
-      <p className="font-mono text-accent">~ $ desktop coming soon</p>
-      <p className="font-serif text-menubar-text/70">[PLACEHOLDER]</p>
+    <main>
+      <h1 className="sr-only">Hassan Dawy</h1>
+      <Desktop tree={tree} />
     </main>
   );
 }
