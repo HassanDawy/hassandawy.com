@@ -17,8 +17,21 @@ function write(rel: string, text: string) {
 
 beforeAll(() => {
   root = fs.mkdtempSync(path.join(os.tmpdir(), "fs-tree-"));
-  write("content/projects/b.md", "---\ntitle: B\norder: 2\n---\nB body\n");
-  write("content/projects/a.md", "---\ntitle: A\norder: 1\n---\nA body\n");
+  write(
+    "content/projects/b.md",
+    '---\ntitle: B\norder: 2\nskills: ["Python"]\nmethods: ["Beam search"]\n---\nB body\n',
+  );
+  write(
+    "content/projects/a.md",
+    '---\ntitle: A\norder: 1\nskills: ["Rust", "Python", "[ADD SKILLS]"]\n---\nA body\n',
+  );
+  write(
+    "content/skills.json",
+    JSON.stringify({
+      categories: [{ id: "lang", title: "Languages", kind: "skill", tags: ["Python", "Rust"] }],
+      themes: [{ id: "t", title: "Theme", description: "d", tags: ["Python"] }],
+    }),
+  );
   write("content/notes/2026-01-01-old.md", "---\ntitle: Old\ndate: 2026-01-01\n---\nold");
   write("content/notes/2026-03-01-new.md", "---\ntitle: New\ndate: 2026-03-01\n---\nnew");
   write("content/trash/bot.md", "---\ntitle: Bot\nstopped: 2025-06-01\n---\nWhy");
@@ -46,6 +59,26 @@ describe("buildTree", () => {
     ]);
   });
 
+  it("builds ~/skills with links to the work that used each tag", () => {
+    const skills = resolve(tree, "~/skills") as DirNode;
+    // Category order from skills.json first, then unknown tags alphabetically.
+    expect(skills.children.map((c) => c.name)).toEqual(["python", "rust", "beam-search"]);
+    expect(skills.meta.themes).toEqual([{ id: "t", title: "Theme", description: "d", tags: ["Python"] }]);
+
+    const python = resolve(tree, "~/skills/python") as DirNode;
+    expect(python.meta).toEqual({ title: "Python", kind: "skill", category: "lang" });
+    expect(python.children.map((c) => [c.type, c.path, c.meta.title])).toEqual([
+      ["link", "~/skills/python/a", "A"],
+      ["link", "~/skills/python/b", "B"],
+    ]);
+    expect(resolve(tree, "~/skills/beam-search")?.meta).toMatchObject({ kind: "method", category: null });
+    expect(resolve(tree, "~/skills/python/a/about.md")?.path).toBe("~/projects/a/about.md");
+  });
+
+  it("skips placeholder tags", () => {
+    expect(resolve(tree, "~/skills/add-skills")).toBeNull();
+  });
+
   it("lists notes newest first with dates as strings", () => {
     const notes = resolve(tree, "~/notes") as DirNode;
     expect(notes.children.map((c) => c.name)).toEqual(["2026-03-01-new.md", "2026-01-01-old.md"]);
@@ -68,6 +101,7 @@ describe("buildTree", () => {
       "projects",
       "experience",
       "notes",
+      "skills",
       ".trash",
     ]);
     fs.rmSync(empty, { recursive: true, force: true });

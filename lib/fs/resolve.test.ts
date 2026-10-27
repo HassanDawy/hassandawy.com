@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { list, normalize, resolve } from "./resolve";
+import { follow, list, normalize, resolve } from "./resolve";
 import type { DirNode } from "./types";
 
 const tree: DirNode = {
@@ -25,6 +25,16 @@ const tree: DirNode = {
     },
     { type: "dir", name: "notes", path: "~/notes", meta: {}, children: [] },
     { type: "file", name: "about.json", path: "~/about.json", meta: {} },
+    {
+      type: "dir",
+      name: "skills",
+      path: "~/skills",
+      meta: {},
+      children: [
+        { type: "link", name: "demo", path: "~/skills/demo", meta: {}, target: "~/projects/demo" },
+        { type: "link", name: "gone", path: "~/skills/gone", meta: {}, target: "~/projects/gone" },
+      ],
+    },
   ],
 };
 
@@ -86,7 +96,7 @@ describe("resolve", () => {
 
 describe("list", () => {
   it("lists a directory's children", () => {
-    expect(list(tree)?.map((n) => n.name)).toEqual(["projects", "notes", "about.json"]);
+    expect(list(tree)?.map((n) => n.name)).toEqual(["projects", "notes", "about.json", "skills"]);
     expect(list(tree, ".", "~/projects")?.map((n) => n.name)).toEqual(["demo"]);
   });
 
@@ -96,5 +106,32 @@ describe("list", () => {
 
   it("returns null for missing paths", () => {
     expect(list(tree, "missing/")).toBeNull();
+  });
+});
+
+describe("links", () => {
+  it("returns the link itself when the path ends on it", () => {
+    expect(resolve(tree, "~/skills/demo")?.type).toBe("link");
+  });
+
+  it("follows links when the path continues through them", () => {
+    expect(resolve(tree, "~/skills/demo/about.md")?.path).toBe("~/projects/demo/about.md");
+    expect(resolve(tree, "about.md", "~/skills/demo")?.path).toBe("~/projects/demo/about.md");
+  });
+
+  it("follows a link to its target", () => {
+    const linkNode = resolve(tree, "~/skills/demo")!;
+    expect(follow(tree, linkNode)?.path).toBe("~/projects/demo");
+  });
+
+  it("lists the target directory through a link", () => {
+    expect(list(tree, "~/skills/demo")?.map((n) => n.name)).toEqual(["about.md"]);
+    expect(resolve(tree, "~/skills/demo/")?.type).toBe("link");
+  });
+
+  it("treats broken links as missing", () => {
+    expect(follow(tree, resolve(tree, "~/skills/gone")!)).toBeNull();
+    expect(list(tree, "~/skills/gone")).toBeNull();
+    expect(resolve(tree, "~/skills/gone/about.md")).toBeNull();
   });
 });

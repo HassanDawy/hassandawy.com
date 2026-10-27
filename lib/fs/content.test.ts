@@ -1,9 +1,10 @@
 // Checks the real content/ folder, so a malformed Markdown file fails `pnpm test`
 // with a clear message instead of breaking a window at runtime.
 import { describe, expect, it } from "vitest";
+import { tagsOf } from "./build-skills";
 import { buildTree } from "./build-tree";
 import { resolve } from "./resolve";
-import type { DirNode, FsNode } from "./types";
+import type { DirNode, FsNode, SkillsConfig } from "./types";
 
 const tree = buildTree();
 const children = (path: string) => (resolve(tree, path) as DirNode).children;
@@ -47,5 +48,34 @@ describe("content/", () => {
 
   it("has at most one pinned note", () => {
     expect(children("~/notes").filter((n) => n.meta.pinned).length).toBeLessThanOrEqual(1);
+  });
+});
+
+describe("content/skills.json", () => {
+  const config = (resolve(tree, "~/skills") as DirNode).meta as unknown as SkillsConfig;
+  const kindOf = new Map<string, string>();
+  for (const category of config.categories) {
+    for (const tag of category.tags) {
+      expect(kindOf.has(tag), `"${tag}" is in more than one category`).toBe(false);
+      kindOf.set(tag, category.kind);
+    }
+  }
+
+  it("puts every tag used in content/ in a category of the right kind", () => {
+    for (const node of [...children("~/projects"), ...children("~/experience")]) {
+      for (const [field, kind] of [["skills", "skill"], ["methods", "method"]] as const) {
+        for (const tag of tagsOf(node.meta[field])) {
+          expect(kindOf.get(tag), `${node.path}: add "${tag}" to a "${kind}" category in content/skills.json`).toBe(kind);
+        }
+      }
+    }
+  });
+
+  it("only uses known tags in themes", () => {
+    for (const theme of config.themes) {
+      for (const tag of theme.tags) {
+        expect(kindOf.has(tag), `theme "${theme.id}": unknown tag "${tag}"`).toBe(true);
+      }
+    }
   });
 });

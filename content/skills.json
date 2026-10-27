@@ -1,0 +1,120 @@
+{
+  "categories": [
+    {
+      "id": "languages",
+      "title": "Languages",
+      "kind": "skill",
+      "tags": ["Python", "TypeScript", "SQL", "Rust", "Java"]
+    },
+    {
+      "id": "ml-libraries",
+      "title": "ML and data libraries",
+      "kind": "skill",
+      "tags": ["PyTorch", "TensorFlow/Keras", "scikit-learn", "pandas", "OpenCV", "GeoPandas", "SciPy", "Matplotlib", "DeBERTa-v3", "MineRL"]
+    },
+    {
+      "id": "llm-apis",
+      "title": "LLM APIs",
+      "kind": "skill",
+      "tags": ["Anthropic API", "OpenAI API"]
+    },
+    {
+      "id": "cloud-infra",
+      "title": "Cloud and infrastructure",
+      "kind": "skill",
+      "tags": ["AWS", "AWS CDK", "AWS S3", "GCP", "Vertex AI", "BigQuery", "Docker", "GitHub Actions", "RunPod", "pytest"]
+    },
+    {
+      "id": "backend",
+      "title": "Backend and data",
+      "kind": "skill",
+      "tags": ["FastAPI", "Fastify", "Spring Boot", "REST APIs", "PostgreSQL", "SQLite", "n8n", "Web scraping"]
+    },
+    {
+      "id": "frontend",
+      "title": "Frontend and maps",
+      "kind": "skill",
+      "tags": ["React", "Leaflet.js", "Google Maps API"]
+    },
+    {
+      "id": "math",
+      "title": "Math",
+      "kind": "skill",
+      "tags": ["Probability", "Linear algebra", "Calculus"]
+    },
+    {
+      "id": "modeling",
+      "title": "Modeling",
+      "kind": "method",
+      "tags": ["Transfer learning", "Gradient boosting", "Quantile forecasting", "Demand forecasting", "Random forests", "Naive Bayes", "Neural network training", "Dropout regularization", "Class-weighted loss", "Class-imbalance weighting", "Negative sampling", "Model calibration", "On-device inference", "Reinforcement learning", "Reward design", "RL fine-tuning"]
+    },
+    {
+      "id": "evaluation",
+      "title": "Evaluation",
+      "kind": "method",
+      "tags": ["Out-of-time backtesting", "Patient-grouped splits", "Training-cutoff evaluation split", "Retrieval evaluation (Hit@k)", "Ablation studies", "Correlation testing"]
+    },
+    {
+      "id": "llm-systems",
+      "title": "LLM systems",
+      "kind": "method",
+      "tags": ["Multi-agent orchestration", "Tool-calling (ReAct) agents", "Cross-vendor LLM review", "LLM cost and token tracing", "Context compaction", "Human-in-the-loop design", "RAG", "Hybrid retrieval (BM25 + dense)", "Reciprocal Rank Fusion", "Chain-of-thought prompting", "Few-shot prompting", "LLM workflow generation", "Multi-turn clarification"]
+    },
+    {
+      "id": "data-features",
+      "title": "Data and features",
+      "kind": "method",
+      "tags": ["Leakage-safe feature engineering", "Bag-of-Words features", "TF-IDF", "N-gram features", "Spatial joins", "Composite index design", "ETL pipelines", "Cron scheduling", "Geospatial visualization"]
+    },
+    {
+      "id": "algorithms",
+      "title": "Algorithms",
+      "kind": "method",
+      "tags": ["Beam search", "Graph algorithms", "Breadth-first search", "Closeness centrality", "Jaccard similarity", "Finite-state machines"]
+    },
+    {
+      "id": "software",
+      "title": "Software and product",
+      "kind": "method",
+      "tags": ["Progressive Web Apps", "API-key authentication", "Workflow automation", "Rules-based screening"]
+    },
+    {
+      "id": "people",
+      "title": "People and communication",
+      "kind": "method",
+      "tags": ["Project management", "Stakeholder demos", "Teaching", "Technical writing"]
+    }
+  ],
+  "themes": [
+    {
+      "id": "leakage-safe-evaluation",
+      "title": "Leakage-safe evaluation",
+      "description": "Splits, backtests and metrics built so that a good number is a real one.",
+      "tags": ["Out-of-time backtesting", "Leakage-safe feature engineering", "Patient-grouped splits", "Training-cutoff evaluation split", "Retrieval evaluation (Hit@k)", "Class-imbalance weighting", "Ablation studies"]
+    },
+    {
+      "id": "llm-systems",
+      "title": "LLM systems",
+      "description": "Agents, retrieval and LLM-powered products, with cost and reliability measured.",
+      "tags": ["Multi-agent orchestration", "Tool-calling (ReAct) agents", "Cross-vendor LLM review", "LLM cost and token tracing", "Context compaction", "RAG", "Hybrid retrieval (BM25 + dense)", "LLM workflow generation", "Multi-turn clarification"]
+    },
+    {
+      "id": "shipping",
+      "title": "Shipping to production",
+      "description": "Services, pipelines and deployments that other people rely on.",
+      "tags": ["FastAPI", "Docker", "AWS", "AWS CDK", "GCP", "Vertex AI", "GitHub Actions", "PostgreSQL", "ETL pipelines", "Progressive Web Apps", "pytest"]
+    },
+    {
+      "id": "efficiency",
+      "title": "Efficiency under constraints",
+      "description": "Fitting models and agents into tight budgets of cost, compute or device size.",
+      "tags": ["LLM cost and token tracing", "Context compaction", "On-device inference"]
+    },
+    {
+      "id": "people",
+      "title": "Working with people",
+      "description": "Leading teams, teaching, demoing to stakeholders and writing it up.",
+      "tags": ["Project management", "Stakeholder demos", "Teaching", "Technical writing", "Human-in-the-loop design"]
+    }
+  ]
+}

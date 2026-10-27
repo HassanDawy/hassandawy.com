@@ -1,22 +1,28 @@
 import fs from "node:fs";
 import path from "node:path";
 import matter from "gray-matter";
+import { buildSkills } from "./build-skills";
+import { dir, file } from "./nodes";
 import type { DirNode, FileNode, FsMeta, FsNode } from "./types";
 
 // Reads content/ at build time and returns the visitor-facing tree:
 //   ~/projects/<slug>/about.md
 //   ~/experience/<slug>.md
 //   ~/notes/<date-slug>.md
+//   ~/skills/<skill>/<links to work>   (see build-skills.ts)
 //   ~/.trash/<slug>/WHY_I_STOPPED.md
 //   ~/about.json
 //   ~/resume.pdf (only if public/resume.pdf exists)
 // Uses sync fs on purpose: Next prerenders sync reads into the static shell.
 export function buildTree(rootDir = process.cwd()): DirNode {
   const contentDir = path.join(rootDir, "content");
+  const projects = buildProjects(contentDir);
+  const experience = buildExperience(contentDir);
   const children: FsNode[] = [
-    dir("~/projects", {}, buildProjects(contentDir)),
-    dir("~/experience", {}, buildExperience(contentDir)),
+    dir("~/projects", {}, projects),
+    dir("~/experience", {}, experience),
     dir("~/notes", {}, buildNotes(contentDir)),
+    buildSkills(contentDir, [...projects, ...experience]),
     dir("~/.trash", {}, buildTrash(contentDir)),
   ];
 
@@ -86,14 +92,3 @@ function normalizeMeta(data: Record<string, unknown>): FsMeta {
   return meta;
 }
 
-function dir(nodePath: string, meta: FsMeta, children: FsNode[]): DirNode {
-  return { type: "dir", name: basename(nodePath), path: nodePath, meta, children };
-}
-
-function file(nodePath: string, meta: FsMeta, body?: string): FileNode {
-  return { type: "file", name: basename(nodePath), path: nodePath, meta, body };
-}
-
-function basename(nodePath: string) {
-  return nodePath.slice(nodePath.lastIndexOf("/") + 1);
-}
