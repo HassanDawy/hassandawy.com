@@ -8,7 +8,7 @@ featured: true
 repo: "benevolentbandwidth/secondlook"
 metrics: ["0.83 AUROC", "82% sensitivity", "75K+ mammograms"]
 skills: ["Python", "TensorFlow/Keras", "pandas", "OpenCV", "scikit-learn", "GCP", "Vertex AI", "Docker", "pytest"]
-methods: ["Transfer learning", "Model calibration", "Patient-grouped splits", "Class-weighted loss", "On-device inference", "Project management"]
+methods: ["Transfer learning", "Model calibration", "Patient-grouped splits", "Class-imbalance handling", "On-device inference", "Project management"]
 ---
 
 ## The problem

@@ -7,7 +7,7 @@ featured: true
 collaborators: ["Ghaith Al Ramahi"]
 metrics: ["9.9% full-puzzle wins", "16.2% group accuracy", "0% for both baselines"]
 skills: ["Python", "PyTorch", "DeBERTa-v3"]
-methods: ["Transfer learning", "Beam search", "Negative sampling", "Class-imbalance weighting", "Ablation studies"]
+methods: ["Transfer learning", "Beam search", "Class-imbalance handling", "Ablation studies"]
 ---
 
 ## The problem

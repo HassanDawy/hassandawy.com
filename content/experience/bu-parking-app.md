@@ -8,8 +8,8 @@ end: "2026-05"
 featured: true
 collaborators: ["Professor Scott Ladenheim", "Leonidas"]
 metrics: ["2,500+ potential users", "Minute-level data"]
-skills: ["Python", "FastAPI", "SQLite", "AWS S3", "React", "TypeScript", "Google Maps API"]
-methods: ["ETL pipelines", "Cron scheduling", "Progressive Web Apps", "Stakeholder demos"]
+skills: ["Python", "FastAPI", "SQLite", "AWS", "React", "TypeScript", "Google Maps API"]
+methods: ["ETL pipelines", "Progressive Web Apps"]
 ---
 
 ## The problem

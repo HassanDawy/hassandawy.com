@@ -7,8 +7,8 @@ start: "2025-07"
 end: "2025-08"
 featured: true
 metrics: ["Up to 10 hours saved per client per week"]
-skills: ["Python", "OpenAI API", "Java", "Spring Boot", "REST APIs", "n8n"]
-methods: ["LLM workflow generation", "Multi-turn clarification", "API-key authentication", "Workflow automation"]
+skills: ["Python", "OpenAI API", "Java", "Spring Boot"]
+methods: []
 ---
 
 ## The problem

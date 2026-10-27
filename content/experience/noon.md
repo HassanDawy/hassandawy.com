@@ -8,7 +8,7 @@ end: "2026-08"
 featured: true
 metrics: ["28,000+ sellers forecast", "15% lower WAPE than the best baseline", "~$200M in financing decisions"]
 skills: ["Python", "SQL", "BigQuery", "scikit-learn", "FastAPI", "PostgreSQL"]
-methods: ["Quantile forecasting", "Gradient boosting", "Out-of-time backtesting", "Leakage-safe feature engineering", "Rules-based screening"]
+methods: ["Quantile forecasting", "Gradient boosting", "Out-of-time backtesting", "Leakage-safe feature engineering"]
 ---
 
 ## The problem

@@ -6,7 +6,7 @@ summary: "Supporting 200+ students in calculus, probability and linear algebra."
 start: "2025-08"
 end: "present"
 metrics: ["200+ students"]
-skills: ["Probability", "Linear algebra", "Calculus"]
+skills: []
 methods: ["Teaching"]
 ---
 

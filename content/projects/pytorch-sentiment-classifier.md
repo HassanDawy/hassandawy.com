@@ -6,7 +6,7 @@ end: "2026-02"
 repo: "HassanDawy/pytorch-sentiment-classifier"
 metrics: ["87.6% test accuracy"]
 skills: ["Python", "PyTorch"]
-methods: ["Bag-of-Words features", "Dropout regularization", "Neural network training"]
+methods: ["Text features (BoW, TF-IDF)"]
 ---
 
 A sentiment classifier built from scratch in PyTorch on the IMDB 50K reviews

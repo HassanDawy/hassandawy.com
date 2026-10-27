@@ -9,7 +9,7 @@ links:
 collaborators: ["Noah Arnut", "teajammin"]
 metrics: ["57 tasks merged in 13 days", "$9.03 median cost per merged task", "592 LLM calls traced"]
 skills: ["TypeScript", "Anthropic API", "OpenAI API", "GitHub Actions", "AWS", "AWS CDK", "Fastify", "React"]
-methods: ["Multi-agent orchestration", "Finite-state machines", "Tool-calling (ReAct) agents", "Cross-vendor LLM review", "LLM cost and token tracing", "Context compaction", "Human-in-the-loop design"]
+methods: ["Multi-agent orchestration", "Finite-state machines", "Tool-calling (ReAct) agents", "LLM cost and token tracing", "Context compaction", "Human-in-the-loop design"]
 ---
 
 ## The problem

@@ -7,8 +7,8 @@ end: "2025-03"
 featured: true
 links:
   - { label: "LessWrong post", href: "https://www.lesswrong.com/posts/GSuoKJYTQYPktBp8A/from-diamond-mining-to-open-world-survival-alignment-and-1" }
-skills: ["Python", "MineRL", "RunPod"]
-methods: ["Reinforcement learning", "Reward design", "RL fine-tuning", "Technical writing"]
+skills: ["Python"]
+methods: ["Reinforcement learning", "Reward design", "Technical writing"]
 ---
 
 ## The problem

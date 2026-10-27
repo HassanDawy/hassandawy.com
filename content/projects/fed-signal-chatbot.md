@@ -7,7 +7,7 @@ featured: true
 repo: "HassanDawy/fed-signal-chatbot"
 metrics: ["91.7% post-cutoff accuracy with BM25", "175 FOMC statements indexed"]
 skills: ["Python", "OpenAI API", "Web scraping"]
-methods: ["RAG", "Hybrid retrieval (BM25 + dense)", "Reciprocal Rank Fusion", "Chain-of-thought prompting", "Few-shot prompting", "Retrieval evaluation (Hit@k)", "Training-cutoff evaluation split"]
+methods: ["RAG", "Hybrid retrieval (BM25 + dense)", "Prompt engineering", "Retrieval evaluation (Hit@k)", "Training-cutoff evaluation split"]
 ---
 
 ## The problem

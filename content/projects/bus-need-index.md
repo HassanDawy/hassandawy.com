@@ -9,8 +9,8 @@ links:
   - { label: "Live map", href: "https://busneedmap.netlify.app/" }
   - { label: "Blog post: Mapping Transit Equity in NYC", href: "https://www.lesswrong.com/posts/P2kFeCt4bkKyzt2HS/mapping-transit-equity-in-nyc" }
 metrics: ["6 datasets merged", "Presented at NYC School of Data"]
-skills: ["Python", "pandas", "GeoPandas", "SciPy", "Matplotlib", "Leaflet.js"]
-methods: ["Spatial joins", "Composite index design", "Correlation testing", "Geospatial visualization"]
+skills: ["Python", "pandas", "GeoPandas", "SciPy", "Leaflet.js"]
+methods: ["Spatial joins"]
 ---
 
 ## The problem

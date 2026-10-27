@@ -5,7 +5,7 @@ start: "2026-01"
 end: "2026-01"
 repo: "HassanDawy/nlp-clickbait-detection"
 skills: ["Python"]
-methods: ["Naive Bayes", "TF-IDF", "Bag-of-Words features", "N-gram features"]
+methods: ["Naive Bayes", "Text features (BoW, TF-IDF)"]
 ---
 
 A clickbait headline classifier using Multinomial Naive Bayes. I compared
