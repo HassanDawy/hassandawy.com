@@ -6,7 +6,8 @@ export type Launch =
   | { type: "open"; appId: AppId; props: { path: string } }
   | { type: "url"; href: string };
 
-// What opening a path does, shared by Finder, Terminal and the Dock so they
+// What opening a path does (folder → Finder, note → Notes, other text file →
+// Preview, file with an href → URL), shared by Finder, Terminal and the Dock so they
 // always agree. Links are followed. Null if the path is missing or unopenable.
 export function openPath(tree: DirNode, path: string, cwd?: string): Launch | null {
   const node = resolve(tree, path, cwd);
@@ -14,6 +15,9 @@ export function openPath(tree: DirNode, path: string, cwd?: string): Launch | nu
   if (!real) return null;
   if (real.type === "dir") return { type: "open", appId: "finder", props: { path: real.path } };
   if (typeof real.meta.href === "string") return { type: "url", href: real.meta.href };
+  if (real.type === "file" && real.path.startsWith("~/notes/")) {
+    return { type: "open", appId: "notes", props: { path: real.path } };
+  }
   if (real.type === "file" && real.body !== undefined) {
     return { type: "open", appId: "viewer", props: { path: real.path } };
   }

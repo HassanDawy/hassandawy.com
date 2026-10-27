@@ -1,7 +1,7 @@
 "use client";
 
 import { ArrowUpRight } from "lucide-react";
-import { formatDate, formatPeriod } from "@/lib/format";
+import { formatPeriod } from "@/lib/format";
 import type { FsMeta } from "@/lib/fs/types";
 import { tagsOf } from "@/lib/fs/tags";
 import { useWindows } from "@/lib/store/windows";
@@ -82,23 +82,6 @@ function TagRow({ label, tags, filled }: { label: string; tags: string[]; filled
         ),
       )}
     </div>
-  );
-}
-
-// Header for a note: date and place, title, and a link if it was published elsewhere.
-export function NoteHeader({ meta }: { meta: FsMeta }) {
-  const external = typeof meta.external === "string" ? meta.external : null;
-  return (
-    <header className="mb-4">
-      <p className="text-xs text-[#5A5E67]">{[formatDate(meta.date), meta.location].filter(Boolean).join(" · ")}</p>
-      <h1 className="mt-1.5 font-serif text-[30px] leading-tight font-semibold">{String(meta.title ?? "")}</h1>
-      {external && (
-        <a href={external} target="_blank" rel="noopener" className="mt-2 inline-flex items-center gap-0.5 text-[13px] font-semibold text-[#B4540F] hover:underline">
-          Read the full post on {new URL(external).hostname.replace(/^www\./, "")}
-          <ArrowUpRight size={13} aria-hidden />
-        </a>
-      )}
-    </header>
   );
 }
 

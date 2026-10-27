@@ -23,3 +23,22 @@ export function formatDate(value: unknown): string {
   const long = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   return `${long[Number(m[2]) - 1]} ${Number(m[3])}, ${m[1]}`;
 }
+
+/** "2026-10-27" -> "Oct 27". */
+export function formatShortDate(value: unknown): string {
+  const m = /^\d{4}-(\d{2})-(\d{2})$/.exec(String(value ?? ""));
+  return m ? `${MONTHS[Number(m[1]) - 1]} ${Number(m[2])}` : String(value ?? "");
+}
+
+/** The first line of Markdown as plain text, for list previews. */
+export function firstLine(markdown: string): string {
+  const line = markdown
+    .split("\n")
+    .map((l) => l.trim())
+    .find((l) => l && !/^(#|---|```|!\[)/.test(l));
+  return (line ?? "")
+    .replace(/^([>*+-]|\d+\.)\s+/, "")
+    .replace(/\[([^\]]*)\]\([^)]*\)/g, "$1")
+    .replace(/[*_`]/g, "")
+    .trim();
+}

@@ -1,14 +1,15 @@
 "use client";
 
 import { useEffect } from "react";
+import { Markdown } from "@/components/content/Markdown";
 import { useFs } from "@/lib/fs/provider";
 import { follow, resolve } from "@/lib/fs/resolve";
 import { useWindows } from "@/lib/store/windows";
 import type { AppProps } from "../types";
-import { NoteHeader, ReadmeHeader, TrashHeader, WorkHeader } from "./Headers";
-import { Markdown } from "./Markdown";
+import { ReadmeHeader, TrashHeader, WorkHeader } from "./Headers";
 
 // Preview: renders one Markdown or JSON file from the filesystem (props.path).
+// Notes open in the Notes app instead (see lib/apps/open-path.ts).
 export default function Viewer({ windowId, props }: AppProps) {
   const tree = useFs();
   const path = String(props.path ?? "");
@@ -31,7 +32,6 @@ export default function Viewer({ windowId, props }: AppProps) {
     <article className="mx-auto max-w-[660px] px-8 py-7">
       {isWork && <WorkHeader meta={file.meta} />}
       {file.name === "README.md" && typeof file.meta.repo === "string" && <ReadmeHeader repo={file.meta.repo} />}
-      {file.path.startsWith("~/notes/") && <NoteHeader meta={file.meta} />}
       {file.path.startsWith("~/.trash/") && <TrashHeader meta={file.meta} />}
       <Markdown>{body}</Markdown>
     </article>
