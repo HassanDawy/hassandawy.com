@@ -7,7 +7,7 @@ import { useFs } from "@/lib/fs/provider";
 import { resolve } from "@/lib/fs/resolve";
 import { useWindows, type WindowProps } from "@/lib/store/windows";
 
-const DOCK_APPS: AppId[] = ["finder", "terminal", "notes"];
+const DOCK_APPS: AppId[] = ["finder", "terminal", "notes", "skills"];
 
 export function Dock() {
   const tree = useFs();

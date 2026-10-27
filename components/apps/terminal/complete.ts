@@ -1,6 +1,7 @@
 import { namedApps } from "@/lib/apps/registry";
 import { follow, list } from "@/lib/fs/resolve";
 import type { DirNode } from "@/lib/fs/types";
+import { skillsIndex } from "@/lib/skills";
 import { COMMANDS } from "./commands";
 
 interface Candidate {
@@ -15,8 +16,8 @@ export interface Completion {
   options: string[];
 }
 
-// Tab completion: command names for the first word, then paths (and app names
-// after `open`). Hidden entries only match when the prefix starts with ".".
+// Tab completion: command names for the first word, then paths (app names after
+// `open`, skill slugs after `which`). Hidden entries only match a "." prefix.
 export function complete(input: string, cwd: string, tree: DirNode): Completion {
   const words = input.split(" ");
   const word = words[words.length - 1];
@@ -24,6 +25,11 @@ export function complete(input: string, cwd: string, tree: DirNode): Completion 
   if (words.length === 1) {
     const names = Object.keys(COMMANDS).filter((c) => c.startsWith(word));
     return finish(input, word, names.map((name) => ({ name, suffix: " " })));
+  }
+
+  if (words[0] === "which" && words.length === 2) {
+    const slugs = [...skillsIndex(tree).entries.values()].map((e) => e.slug).filter((s) => s.startsWith(word));
+    return finish(input, word, slugs.map((name) => ({ name, suffix: " " })));
   }
 
   const slash = word.lastIndexOf("/");

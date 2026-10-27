@@ -3,7 +3,7 @@
 import { ArrowUpRight } from "lucide-react";
 import { formatDate, formatPeriod } from "@/lib/format";
 import type { FsMeta } from "@/lib/fs/types";
-import { slugify, tagsOf } from "@/lib/fs/tags";
+import { tagsOf } from "@/lib/fs/tags";
 import { useWindows } from "@/lib/store/windows";
 
 interface Link {
@@ -12,7 +12,7 @@ interface Link {
 }
 
 // Header for a project or experience entry: dates, title, summary, key numbers,
-// skills and methods, links. Skill chips open that skill's folder.
+// skills and methods, links. Skill chips open the Skills app on that tag.
 export function WorkHeader({ meta }: { meta: FsMeta }) {
   const strings = (v: unknown) => (Array.isArray(v) ? v.map(String) : []);
   const links: Link[] = [
@@ -70,7 +70,7 @@ function TagRow({ label, tags, filled }: { label: string; tags: string[]; filled
           <button
             key={tag}
             type="button"
-            onClick={() => useWindows.getState().open("finder", { path: `~/skills/${slugify(tag)}` })}
+            onClick={() => useWindows.getState().open("skills", { tag, theme: null })}
             className={`rounded-full px-2.5 py-0.5 text-xs ${
               filled ? "bg-[#E9E7E2] hover:bg-[#DDD9D1]" : "border border-[#D8D5CE] hover:bg-[#EFEDE8]"
             }`}

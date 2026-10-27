@@ -1,8 +1,8 @@
-import { FileText, Folder, NotebookPen, SquareTerminal, type LucideIcon } from "lucide-react";
+import { FileText, Folder, NotebookPen, SquareTerminal, Tags, type LucideIcon } from "lucide-react";
 
 // App metadata used by the window manager, Dock and MenuBar. The app components
 // live in components/apps/index.ts, so importing this never pulls in app code.
-export type AppId = "terminal" | "finder" | "notes" | "viewer";
+export type AppId = "terminal" | "finder" | "notes" | "skills" | "viewer";
 
 export interface AppDef {
   id: AppId;
@@ -43,6 +43,13 @@ export const apps: Record<AppId, AppDef> = {
     defaultSize: { w: 720, h: 520 },
     icon: NotebookPen,
     tile: { bg: "#F3D46B", fg: "#1A1D23" },
+  },
+  skills: {
+    id: "skills",
+    title: "Skills",
+    defaultSize: { w: 780, h: 540 },
+    icon: Tags,
+    tile: { bg: "#1E2A3D", fg: "#F2A93B" },
   },
   viewer: {
     id: "viewer",

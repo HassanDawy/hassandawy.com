@@ -10,7 +10,18 @@ const tree = dir("~", {}, [
     dir("~/projects/facebook-graph", {}, []),
   ]),
   dir("~/notes", {}, [file("~/notes/2026-01-01-hi.md", { title: "Hi" }, "hello")]),
-  dir("~/skills", {}, [dir("~/skills/rag", {}, [link("~/skills/rag/fed-signal", "~/projects/fed-signal", {})])]),
+  dir(
+    "~/skills",
+    {
+      categories: [{ id: "llm", title: "LLM systems", kind: "method", tags: ["RAG"] }],
+      themes: [{ id: "t", title: "Retrieval", description: "d", tags: ["RAG"] }],
+    },
+    [
+      dir("~/skills/rag", { title: "RAG", kind: "method", category: "llm" }, [
+        link("~/skills/rag/fed-signal", "~/projects/fed-signal", {}),
+      ]),
+    ],
+  ),
   dir("~/.trash", {}, []),
   file("~/about.json", {
     name: "Hassan Dawy",
@@ -98,6 +109,16 @@ describe("commands", () => {
     expect(run("clear").clear).toBe(true);
   });
 
+  it("skills lists themes and categories; which finds where a skill was used", () => {
+    const skills = plain(run("skills").lines).join("\n");
+    expect(skills).toContain("Retrieval");
+    expect(skills).toContain("LLM systems: RAG");
+    expect(plain(run("which rag").lines)).toEqual(["RAG, used in 1:", "  Fed  "]);
+    expect(plain(run("which RAG").lines)[0]).toBe("RAG, used in 1:");
+    expect(plain(run("which cobol").lines)[0]).toContain('no skill called "cobol"');
+    expect(run("open skills").effects).toEqual([{ type: "open", appId: "skills" }]);
+  });
+
   it("is friendly about unknown commands and ignores blank input", () => {
     expect(plain(run("sudo rm -rf /").lines)).toEqual([
       "command not found: sudo",
@@ -134,6 +155,10 @@ describe("complete", () => {
   it("only offers hidden entries for a dot prefix", () => {
     expect(tab("cd .")).toEqual({ value: "cd .trash/", options: [] });
     expect(tab("cd ").options).not.toContain(".trash");
+  });
+
+  it("completes skill slugs after which", () => {
+    expect(tab("which r")).toEqual({ value: "which rag ", options: [] });
   });
 
   it("offers app names after open", () => {

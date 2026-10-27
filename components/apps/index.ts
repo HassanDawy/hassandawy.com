@@ -9,10 +9,12 @@ const EmptyApp = dynamic(() => import("./empty/EmptyApp"));
 const Terminal = dynamic(() => import("./terminal/Terminal"));
 const Finder = dynamic(() => import("./finder/Finder"));
 const Viewer = dynamic(() => import("./viewer/Viewer"));
+const Skills = dynamic(() => import("./skills/Skills"));
 
 export const appComponents: Record<AppId, ComponentType<AppProps>> = {
   terminal: Terminal,
   finder: Finder,
   notes: EmptyApp,
+  skills: Skills,
   viewer: Viewer,
 };

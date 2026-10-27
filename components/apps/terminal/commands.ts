@@ -2,41 +2,12 @@ import { openPath } from "@/lib/apps/open-path";
 import { apps, namedApps, type AppId } from "@/lib/apps/registry";
 import { follow, list, normalize, resolve } from "@/lib/fs/resolve";
 import type { DirNode, FsNode } from "@/lib/fs/types";
+import { fail, text, type Command, type Ctx, type Effect, type Result } from "./output";
+import { skillCommands } from "./skill-commands";
 import { unwrap } from "./unwrap";
 
-export type Tone = "accent" | "muted" | "error" | "dir";
-export interface Segment {
-  text: string;
-  tone?: Tone;
-  href?: string;
-}
-export type Line = Segment[];
+export type { Effect, Line, Result, Segment, Tone } from "./output";
 
-/** Side effects the Terminal component applies (it owns the store and window). */
-export type Effect =
-  | { type: "open"; appId: AppId; props?: Record<string, unknown> }
-  | { type: "url"; href: string };
-
-export interface Result {
-  lines: Line[];
-  cwd?: string;
-  clear?: boolean;
-  effects?: Effect[];
-}
-
-interface Ctx {
-  tree: DirNode;
-  cwd: string;
-}
-
-interface Command {
-  usage: string;
-  help: string;
-  run: (args: string[], ctx: Ctx) => Result;
-}
-
-const text = (s: string, tone?: Tone): Line => [{ text: s, tone }];
-const fail = (s: string): Result => ({ lines: [text(s, "error")] });
 const isDir = (tree: DirNode, node: FsNode) => follow(tree, node)?.type === "dir";
 
 export const COMMANDS: Record<string, Command> = {
@@ -155,6 +126,7 @@ export const COMMANDS: Record<string, Command> = {
       };
     },
   },
+  ...skillCommands,
   clear: {
     usage: "clear",
     help: "clear the screen",
