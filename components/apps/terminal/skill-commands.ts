@@ -14,10 +14,12 @@ export const skillCommands: Record<string, Command> = {
         const count = themeWork(index, theme).length;
         lines.push([{ text: `  ${theme.title.padEnd(30)}` }, { text: `${count} projects and roles`, tone: "muted" }]);
       }
-      lines.push(text(""));
-      for (const category of index.config.categories) {
-        const tags = category.tags.filter((t) => index.entries.has(t));
-        if (tags.length) lines.push([{ text: `${category.title}: `, tone: "accent" }, { text: tags.join(", ") }]);
+      for (const [kind, heading] of [["skill", "Skills"], ["method", "Methods"]] as const) {
+        lines.push(text(""), text(heading, "accent"));
+        for (const category of index.config.categories.filter((c) => c.kind === kind)) {
+          const tags = category.tags.filter((t) => index.entries.has(t));
+          if (tags.length) lines.push([{ text: `  ${category.title}: `, tone: "muted" }, { text: tags.join(", ") }]);
+        }
       }
       lines.push(text(""), [
         { text: "Try ", tone: "muted" },

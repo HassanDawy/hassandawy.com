@@ -14,11 +14,35 @@ interface Props {
   onSelect: (selection: Selection) => void;
 }
 
-// Themes first (the cross-project story), then every tag grouped by category.
+type Tab = "themes" | "skill" | "method";
+const TABS: { id: Tab; label: string }[] = [
+  { id: "themes", label: "Themes" },
+  { id: "skill", label: "Skills" },
+  { id: "method", label: "Methods" },
+];
+
+// Three tabs: themes (the cross-project story), skills (tools and languages)
+// and methods (techniques), each grouped by category. The tab follows the
+// selection; clicking a tab selects its first entry.
 export function SkillsSidebar({ index, selection, onSelect }: Props) {
   const navRef = useRef<HTMLElement>(null);
   const selectedKey = keyOf(selection);
   const isSelected = (s: Selection) => keyOf(s) === selectedKey;
+  const tab: Tab = selection.kind === "theme" ? "themes" : (index.entries.get(selection.title)?.kind ?? "skill");
+  const categories = index.config.categories
+    .filter((c) => c.kind === tab)
+    .map((c) => ({ ...c, tags: c.tags.filter((t) => index.entries.has(t)) }))
+    .filter((c) => c.tags.length);
+
+  function openTab(next: Tab) {
+    if (next === "themes") {
+      const first = index.config.themes[0];
+      if (first) onSelect({ kind: "theme", id: first.id });
+      return;
+    }
+    const first = index.config.categories.find((c) => c.kind === next)?.tags.find((t) => index.entries.has(t));
+    if (first) onSelect({ kind: "tag", title: first });
+  }
 
   // Keep the selected row visible, e.g. after a chip in Preview picks a tag far down the list.
   useEffect(() => {
@@ -26,24 +50,37 @@ export function SkillsSidebar({ index, selection, onSelect }: Props) {
   }, [selectedKey]);
 
   return (
-    <nav ref={navRef} aria-label="Skills and themes" className="w-[230px] shrink-0 overflow-y-auto bg-[#EFEDE8] px-2.5 py-3.5 text-xs">
-      <Heading>Themes</Heading>
-      {index.config.themes.map((theme) => (
-        <Row
-          key={theme.id}
-          label={theme.title}
-          count={themeWork(index, theme).length}
-          selected={isSelected({ kind: "theme", id: theme.id })}
-          onClick={() => onSelect({ kind: "theme", id: theme.id })}
-        />
-      ))}
+    <div className="flex w-[230px] shrink-0 flex-col bg-[#EFEDE8]">
+      <div role="group" aria-label="Show" className="m-2.5 mb-1 flex rounded-lg bg-black/[0.06] p-0.5 text-xs">
+        {TABS.map((t) => (
+          <button
+            key={t.id}
+            type="button"
+            aria-pressed={tab === t.id}
+            onClick={() => openTab(t.id)}
+            className={`flex-1 rounded-md py-1 ${tab === t.id ? "bg-white font-semibold shadow-sm" : "text-[#4A4E57]"}`}
+          >
+            {t.label}
+          </button>
+        ))}
+      </div>
 
-      {index.config.categories.map((category) => (
-        <div key={category.id} className="mt-4">
-          <Heading>{category.title}</Heading>
-          {category.tags
-            .filter((tag) => index.entries.has(tag))
-            .map((tag) => (
+      <nav ref={navRef} aria-label={TABS.find((t) => t.id === tab)!.label} className="min-h-0 flex-1 overflow-y-auto px-2.5 pt-2 pb-3.5 text-xs">
+        {tab === "themes" &&
+          index.config.themes.map((theme) => (
+            <Row
+              key={theme.id}
+              label={theme.title}
+              count={themeWork(index, theme).length}
+              selected={isSelected({ kind: "theme", id: theme.id })}
+              onClick={() => onSelect({ kind: "theme", id: theme.id })}
+            />
+          ))}
+
+        {categories.map((category, i) => (
+          <div key={category.id} className={i ? "mt-4" : ""}>
+            <Heading>{category.title}</Heading>
+            {category.tags.map((tag) => (
               <Row
                 key={tag}
                 label={tag}
@@ -52,9 +89,10 @@ export function SkillsSidebar({ index, selection, onSelect }: Props) {
                 onClick={() => onSelect({ kind: "tag", title: tag })}
               />
             ))}
-        </div>
-      ))}
-    </nav>
+          </div>
+        ))}
+      </nav>
+    </div>
   );
 }
 
