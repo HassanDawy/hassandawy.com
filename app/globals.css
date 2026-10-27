@@ -1,0 +1,39 @@
+@import "tailwindcss";
+
+/* Design tokens from CLAUDE.md and docs/mockups.html */
+@theme {
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
+  --font-serif: var(--font-source-serif), Georgia, serif;
+
+  --color-desktop: #0e1726;
+  --color-menubar: rgba(10, 14, 22, 0.82);
+  --color-menubar-text: #e8eaed;
+  --color-window: #f6f5f2;
+  --color-window-titlebar: #e9e7e2;
+  --color-window-border: #d8d5ce;
+  --color-terminal: #12161d;
+  --color-terminal-titlebar: #1b212b;
+  --color-terminal-text: #d7dce3;
+  --color-accent: #f2a93b;
+  --color-light-close: #e5534b;
+  --color-light-minimize: #e3a63a;
+  --color-light-maximize: #3fb15a;
+  --color-folder: #5b8def;
+
+  --spacing-menubar: 30px;
+  --radius-window: 12px;
+  --shadow-window: 0 24px 60px rgba(0, 0, 0, 0.45);
+}
+
+@utility bg-desktop-grid {
+  background-color: var(--color-desktop);
+  background-image: radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+body {
+  background: var(--color-desktop);
+  color: var(--color-menubar-text);
+  font-family: var(--font-sans);
+}
