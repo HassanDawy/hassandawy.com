@@ -102,6 +102,19 @@ export function NoteHeader({ meta }: { meta: FsMeta }) {
   );
 }
 
+// Header for a README pulled from GitHub at build time.
+export function ReadmeHeader({ repo }: { repo: string }) {
+  return (
+    <header className="mb-4 flex items-center justify-between rounded-lg border border-[#E2DFD8] bg-white px-3 py-2 text-xs text-[#5A5E67]">
+      <span>README from GitHub</span>
+      <a href={`https://github.com/${repo}`} target="_blank" rel="noopener" className="inline-flex items-center gap-0.5 font-semibold text-[#B4540F] hover:underline">
+        github.com/{repo}
+        <ArrowUpRight size={13} aria-hidden />
+      </a>
+    </header>
+  );
+}
+
 // Header for a trash item's WHY_I_STOPPED.md.
 export function TrashHeader({ meta }: { meta: FsMeta }) {
   return (

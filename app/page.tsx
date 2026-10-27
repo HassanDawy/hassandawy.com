@@ -1,9 +1,8 @@
 import { Desktop } from "@/components/os/Desktop";
-import { buildTree } from "@/lib/fs/build-tree";
+import { getTree } from "@/lib/fs/get-tree";
 
-export default function Home() {
-  // Sync fs reads, so this is prerendered at build time.
-  const tree = buildTree();
+export default async function Home() {
+  const tree = await getTree();
 
   return (
     <main>

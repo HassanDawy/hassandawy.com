@@ -5,7 +5,7 @@ import { useFs } from "@/lib/fs/provider";
 import { follow, resolve } from "@/lib/fs/resolve";
 import { useWindows } from "@/lib/store/windows";
 import type { AppProps } from "../types";
-import { NoteHeader, TrashHeader, WorkHeader } from "./Headers";
+import { NoteHeader, ReadmeHeader, TrashHeader, WorkHeader } from "./Headers";
 import { Markdown } from "./Markdown";
 
 // Preview: renders one Markdown or JSON file from the filesystem (props.path).
@@ -25,11 +25,12 @@ export default function Viewer({ windowId, props }: AppProps) {
   }
 
   const body = file.name.endsWith(".json") ? "```json\n" + file.body + "\n```" : file.body;
-  const isWork = /^~\/(projects|experience)\//.test(file.path);
+  const isWork = file.path.startsWith("~/experience/") || /^~\/projects\/[^/]+\/about\.md$/.test(file.path);
 
   return (
     <article className="mx-auto max-w-[660px] px-8 py-7">
       {isWork && <WorkHeader meta={file.meta} />}
+      {file.name === "README.md" && typeof file.meta.repo === "string" && <ReadmeHeader repo={file.meta.repo} />}
       {file.path.startsWith("~/notes/") && <NoteHeader meta={file.meta} />}
       {file.path.startsWith("~/.trash/") && <TrashHeader meta={file.meta} />}
       <Markdown>{body}</Markdown>

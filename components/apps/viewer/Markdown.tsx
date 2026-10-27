@@ -26,6 +26,9 @@ const components: Components = {
       {...p}
     />
   ),
+  hr: () => <hr className="my-6 border-[#E2DFD8]" />,
+  // eslint-disable-next-line @next/next/no-img-element -- README images come from arbitrary hosts
+  img: ({ alt, ...p }) => <img alt={alt ?? ""} className="my-4 inline-block max-w-full rounded-md" loading="lazy" {...p} />,
   table: (p) => <table className="my-4 w-full border-collapse font-sans text-sm" {...p} />,
   th: (p) => <th className="border-b border-[#D8D5CE] py-1.5 text-left font-semibold" {...p} />,
   td: (p) => <td className="border-b border-[#ECE9E3] py-1.5" {...p} />,
@@ -34,7 +37,8 @@ const components: Components = {
 export function Markdown({ children }: { children: string }) {
   return (
     <div className="font-serif text-[16px] leading-[1.65] text-[#2A2D33]">
-      <ReactMarkdown remarkPlugins={[remarkGfm]} components={components}>
+      {/* skipHtml: raw HTML in READMEs is dropped rather than shown as text; rendering it would need a sanitizer. */}
+      <ReactMarkdown remarkPlugins={[remarkGfm]} components={components} skipHtml>
         {children}
       </ReactMarkdown>
     </div>
