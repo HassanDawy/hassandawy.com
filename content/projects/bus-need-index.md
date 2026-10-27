@@ -1,5 +1,5 @@
 ---
-title: "Transit Need Index"
+title: "Bus Need Index"
 summary: "An open-source index of which NYC neighborhoods would gain the most from free buses."
 start: "2026-02"
 end: "2026-04"
@@ -21,7 +21,7 @@ depends on many datasets that don't share a common shape.
 ## What I built
 
 - Merged 6 datasets with pandas and GeoPandas spatial joins.
-- Combined them into a double-normalized, weighted "Transit Need Index".
+- Combined them into a double-normalized, weighted "Bus Need Index".
 - Checked the index with SciPy correlation tests.
 - Published the results as Matplotlib charts and an interactive Leaflet.js heatmap.
 
