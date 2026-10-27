@@ -1,6 +1,32 @@
 {
   "name": "Hassan Dawy",
-  "tagline": "[ADD TAGLINE]",
-  "specSheet": ["[ADD SPEC-SHEET LINE]"],
-  "links": [{ "label": "[ADD LINK LABEL]", "href": "[ADD LINK URL]" }]
+  "tagline": "Data Science @ Boston University. [ADD ONE-LINE TAGLINE]",
+  "location": "Boston, MA",
+  "education": {
+    "school": "Boston University, Faculty of Computing and Data Sciences",
+    "degree": "BS in Data Science",
+    "graduation": "Expected Dec 2027",
+    "gpa": "3.90 / 4.00",
+    "coursework": [
+      "Theory and Applications of LLMs (graduate)",
+      "Data Engineering at Scale (graduate)",
+      "Data Structures and Algorithms",
+      "Machine Learning and AI",
+      "Linear Algebra",
+      "Probability and Statistics"
+    ]
+  },
+  "specSheet": [
+    "BS Data Science, Boston University (expected Dec 2027)",
+    "GPA 3.90 / 4.00",
+    "Top of class in DS593, a graduate LLM course, as a sophomore",
+    "4x Guinness World Records holder",
+    "Based in Boston, MA"
+  ],
+  "links": [
+    { "label": "Email", "href": "mailto:hdawy@bu.edu" },
+    { "label": "LinkedIn", "href": "https://www.linkedin.com/in/hassandawy" },
+    { "label": "GitHub", "href": "https://github.com/HassanDawy" },
+    { "label": "Resume", "href": "/resume.pdf" }
+  ]
 }

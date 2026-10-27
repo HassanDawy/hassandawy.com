@@ -22,6 +22,8 @@ beforeAll(() => {
   write("content/notes/2026-01-01-old.md", "---\ntitle: Old\ndate: 2026-01-01\n---\nold");
   write("content/notes/2026-03-01-new.md", "---\ntitle: New\ndate: 2026-03-01\n---\nnew");
   write("content/trash/bot.md", "---\ntitle: Bot\nstopped: 2025-06-01\n---\nWhy");
+  write("content/experience/old-job.md", '---\ntitle: Old\nstart: "2024-01"\n---\nold');
+  write("content/experience/new-job.md", '---\ntitle: New\nstart: "2026-06"\n---\nnew');
   write("content/about.json", '{ "name": "Test" }');
   tree = buildTree(root);
 });
@@ -34,6 +36,14 @@ describe("buildTree", () => {
     expect(projects.children.map((c) => c.name)).toEqual(["a", "b"]);
     const about = resolve(tree, "~/projects/a/about.md");
     expect(about).toMatchObject({ type: "file", body: "A body", meta: { title: "A" } });
+  });
+
+  it("lists experience as files, newest start first", () => {
+    const experience = resolve(tree, "~/experience") as DirNode;
+    expect(experience.children.map((c) => c.path)).toEqual([
+      "~/experience/new-job.md",
+      "~/experience/old-job.md",
+    ]);
   });
 
   it("lists notes newest first with dates as strings", () => {
@@ -54,7 +64,12 @@ describe("buildTree", () => {
 
   it("does not crash when content/ is empty", () => {
     const empty = fs.mkdtempSync(path.join(os.tmpdir(), "fs-empty-"));
-    expect(buildTree(empty).children.map((c) => c.name)).toEqual(["projects", "notes", ".trash"]);
+    expect(buildTree(empty).children.map((c) => c.name)).toEqual([
+      "projects",
+      "experience",
+      "notes",
+      ".trash",
+    ]);
     fs.rmSync(empty, { recursive: true, force: true });
   });
 });

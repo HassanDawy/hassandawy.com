@@ -5,6 +5,7 @@ import type { DirNode, FileNode, FsMeta, FsNode } from "./types";
 
 // Reads content/ at build time and returns the visitor-facing tree:
 //   ~/projects/<slug>/about.md
+//   ~/experience/<slug>.md
 //   ~/notes/<date-slug>.md
 //   ~/.trash/<slug>/WHY_I_STOPPED.md
 //   ~/about.json
@@ -14,6 +15,7 @@ export function buildTree(rootDir = process.cwd()): DirNode {
   const contentDir = path.join(rootDir, "content");
   const children: FsNode[] = [
     dir("~/projects", {}, buildProjects(contentDir)),
+    dir("~/experience", {}, buildExperience(contentDir)),
     dir("~/notes", {}, buildNotes(contentDir)),
     dir("~/.trash", {}, buildTrash(contentDir)),
   ];
@@ -36,7 +38,19 @@ function buildProjects(contentDir: string): DirNode[] {
     .map(({ slug, meta, body }) =>
       dir(`~/projects/${slug}`, meta, [file(`~/projects/${slug}/about.md`, meta, body)]),
     )
-    .sort((a, b) => Number(a.meta.order ?? Infinity) - Number(b.meta.order ?? Infinity));
+    .sort(byOrderThenNewest);
+}
+
+function buildExperience(contentDir: string): FileNode[] {
+  return readMarkdown(path.join(contentDir, "experience"))
+    .map(({ slug, meta, body }) => file(`~/experience/${slug}.md`, meta, body))
+    .sort(byOrderThenNewest);
+}
+
+// Optional `order` wins; otherwise newest `start` ("YYYY-MM") first.
+function byOrderThenNewest(a: FsNode, b: FsNode) {
+  const order = Number(a.meta.order ?? Infinity) - Number(b.meta.order ?? Infinity);
+  return order || String(b.meta.start ?? "").localeCompare(String(a.meta.start ?? ""));
 }
 
 function buildNotes(contentDir: string): FileNode[] {
