@@ -1,13 +1,14 @@
 "use client";
 
 import { Briefcase, ChevronLeft, ChevronRight, Folder, NotebookPen, Tags, Trash2 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { openPath } from "@/lib/apps/open-path";
 import { useFs } from "@/lib/fs/provider";
 import { follow, resolve } from "@/lib/fs/resolve";
 import type { FsNode } from "@/lib/fs/types";
 import { useWindows } from "@/lib/store/windows";
 import type { AppProps } from "../types";
+import { EmptyTrashDialog } from "./EmptyTrashDialog";
 import { FinderItem } from "./FinderItem";
 
 const PLACES = [
@@ -22,6 +23,8 @@ export default function Finder({ windowId, props }: AppProps) {
   const tree = useFs();
   const [nav, setNav] = useState(() => ({ stack: [String(props.path ?? "~/projects")], index: 0 }));
   const [selected, setSelected] = useState<string | null>(null);
+  const [emptyingTrash, setEmptyingTrash] = useState(false);
+  const emptyTrashRef = useRef<HTMLButtonElement>(null);
   const path = nav.stack[nav.index];
   const node = resolve(tree, path);
   const folder = node && follow(tree, node);
@@ -59,7 +62,7 @@ export default function Finder({ windowId, props }: AppProps) {
   const labelOf = (item: FsNode) => (path === "~/skills" ? String(item.meta.title ?? item.name) : item.name);
 
   return (
-    <div className="flex h-full text-[#1A1D23]">
+    <div className="relative flex h-full text-[#1A1D23]">
       <nav aria-label="Places" className="flex w-[150px] shrink-0 flex-col gap-0.5 bg-[#EFEDE8] px-2.5 py-3.5 text-xs">
         <p className="mb-1.5 px-2 text-[11px] font-semibold text-[#6B6F78]">Favorites</p>
         {PLACES.map(({ label, path: placePath, icon: Icon }) => {
@@ -86,6 +89,16 @@ export default function Finder({ windowId, props }: AppProps) {
           <ToolbarButton label="Back" disabled={nav.index === 0} onClick={() => step(-1)} icon={ChevronLeft} />
           <ToolbarButton label="Forward" disabled={nav.index === nav.stack.length - 1} onClick={() => step(1)} icon={ChevronRight} />
           <span className="ml-2 truncate font-mono text-[11px] text-[#6B6F78]">{path}</span>
+          {path === "~/.trash" && (
+            <button
+              ref={emptyTrashRef}
+              type="button"
+              onClick={() => setEmptyingTrash(true)}
+              className="ml-auto shrink-0 rounded-md border border-[#CFCBC3] bg-white px-3 py-1 text-xs hover:bg-[#EFEDE8]"
+            >
+              Empty Trash
+            </button>
+          )}
         </div>
 
         <div
@@ -111,6 +124,15 @@ export default function Finder({ windowId, props }: AppProps) {
           {items.length} {items.length === 1 ? "item" : "items"}
         </footer>
       </div>
+
+      {emptyingTrash && (
+        <EmptyTrashDialog
+          onClose={() => {
+            setEmptyingTrash(false);
+            emptyTrashRef.current?.focus();
+          }}
+        />
+      )}
     </div>
   );
 }
