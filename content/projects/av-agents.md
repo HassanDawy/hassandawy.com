@@ -36,10 +36,8 @@ Cognito, cdk-nag).
 
 **Cost.** I traced every one of the 592 LLM calls ($1,013 total). The Coder drove
 76% of spend, and 59% of that was cache reads, because the tool loop re-sent the
-full context on every step. A fixed-threshold compaction made things 2.9× worse
-per step, so I gated compaction on a cost rule: compact only when the savings
-exceed twice the cache-write cost. Per-step cost dropped from $0.064 to $0.042.
-[CONFIRM: what the per-step figure measures.]
+full context on every step. So I built context compaction, gated on a cost
+rule: compact only when the expected savings exceed twice the cache-write cost.
 
 **Convergence.** Reviewer B rejected about 52% of rounds, and one task cost about
 $37 re-raising the same defects. Each reviewer now sees only its own prior
