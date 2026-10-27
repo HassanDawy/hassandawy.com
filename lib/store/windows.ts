@@ -40,6 +40,8 @@ interface WindowStore {
   toggleMaximize: (id: string) => void;
   move: (id: string, x: number, y: number) => void;
   resize: (id: string, w: number, h: number) => void;
+  /** Merges into a window's props, e.g. a Terminal updating its title. */
+  setProps: (id: string, patch: WindowProps) => void;
   /** Desktop area size (below the menu bar); set by the Desktop on mount and resize. */
   setViewport: (w: number, h: number) => void;
 }
@@ -101,6 +103,8 @@ export const useWindows = create<WindowStore>()((set, get) => ({
 
   resize: (id, w, h) =>
     update(set, id, (win) => ({ ...win, ...clampRect({ x: win.x, y: win.y, w, h }, get().viewport) })),
+
+  setProps: (id, patch) => update(set, id, (w) => ({ ...w, props: { ...w.props, ...patch } })),
 
   setViewport: (w, h) => {
     const viewport = { w, h };

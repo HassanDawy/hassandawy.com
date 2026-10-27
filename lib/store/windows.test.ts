@@ -153,6 +153,13 @@ describe("move, resize and maximize", () => {
     expect(w.y + w.h).toBeLessThanOrEqual(700);
   });
 
+  it("merges props without touching focus or geometry", () => {
+    const a = store().open("terminal", { keep: 1 });
+    const before = { ...win(a) };
+    store().setProps(a, { title: "hassan@portfolio: ~" });
+    expect(win(a)).toEqual({ ...before, props: { keep: 1, title: "hassan@portfolio: ~" } });
+  });
+
   it("toggles maximized and keeps the restore size", () => {
     const a = store().open("terminal");
     store().toggleMaximize(a);

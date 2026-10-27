@@ -20,9 +20,11 @@ export function Window({ win, active }: { win: WindowState; active: boolean }) {
   // Maximized fills the desktop area; x/y/w/h keep the size to restore to.
   const rect = win.maximized ? { x: 0, y: 0, w: viewport.w, h: viewport.h } : win;
 
-  // Move keyboard focus into a window when it opens.
+  // Move keyboard focus into a window when it opens, unless the app already
+  // focused something inside it (like the Terminal's prompt).
   useEffect(() => {
-    sectionRef.current?.focus({ preventScroll: true });
+    const section = sectionRef.current;
+    if (section && !section.contains(document.activeElement)) section.focus({ preventScroll: true });
   }, []);
 
   return (
