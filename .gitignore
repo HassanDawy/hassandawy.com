@@ -48,3 +48,16 @@ next-env.d.ts
 /TASKS.md
 /AGENTS.md
 /docs/
+
+# but keep an example env file, if one is added
+!.env.example
+
+# OS and editor files
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+*.log
+
+# personal Claude Code settings
+.claude/settings.local.json
