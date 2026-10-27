@@ -1,4 +1,4 @@
-import { apps } from "@/lib/apps/registry";
+import { namedApps } from "@/lib/apps/registry";
 import { follow, list } from "@/lib/fs/resolve";
 import type { DirNode } from "@/lib/fs/types";
 import { COMMANDS } from "./commands";
@@ -35,7 +35,7 @@ export function complete(input: string, cwd: string, tree: DirNode): Completion 
 
   // `open notes` opens the app, not ~/notes, so app names win over same-named paths.
   if (words[0] === "open" && words.length === 2 && !dirPart) {
-    const appIds = Object.keys(apps).filter((id) => id.startsWith(prefix));
+    const appIds: string[] = namedApps.filter((id) => id.startsWith(prefix));
     candidates = [
       ...candidates.filter((c) => !appIds.includes(c.name)),
       ...appIds.map((name) => ({ name, suffix: " " })),

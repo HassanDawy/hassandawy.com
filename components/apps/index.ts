@@ -7,9 +7,12 @@ import type { AppProps } from "./types";
 // Apps still on EmptyApp are replaced as they are built (TASKS.md 6+).
 const EmptyApp = dynamic(() => import("./empty/EmptyApp"));
 const Terminal = dynamic(() => import("./terminal/Terminal"));
+const Finder = dynamic(() => import("./finder/Finder"));
+const Viewer = dynamic(() => import("./viewer/Viewer"));
 
 export const appComponents: Record<AppId, ComponentType<AppProps>> = {
   terminal: Terminal,
-  finder: EmptyApp,
+  finder: Finder,
   notes: EmptyApp,
+  viewer: Viewer,
 };

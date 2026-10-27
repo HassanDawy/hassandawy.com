@@ -47,6 +47,16 @@ describe("open", () => {
     expect(a).not.toBe(b);
     expect(store().windows.map((w) => w.props.path)).toEqual(["~/projects", "~/notes"]);
   });
+
+  it("focuses a multi-window app's window that already shows the same path", () => {
+    const a = store().open("finder", { path: "~/projects" });
+    store().open("finder", { path: "~/notes" });
+    expect(store().open("finder", { path: "~/projects" })).toBe(a);
+    expect(store().windows).toHaveLength(2);
+    expect(focusedWindowId(store().windows)).toBe(a);
+    // No path means "a new window", like clicking File > New Window.
+    expect(store().open("finder")).not.toBe(a);
+  });
 });
 
 describe("cascade", () => {

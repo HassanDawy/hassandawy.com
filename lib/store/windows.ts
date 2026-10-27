@@ -55,7 +55,13 @@ export const useWindows = create<WindowStore>()((set, get) => ({
     const { windows, viewport, nextId } = get();
     const z = maxZ(windows) + 1;
 
-    const existing = apps[appId].multiWindow ? undefined : windows.find((w) => w.appId === appId);
+    // Single-window apps reuse their window; multi-window apps reuse the one
+    // already showing the same path (e.g. the same folder in Finder).
+    const existing = windows.find(
+      (w) =>
+        w.appId === appId &&
+        (!apps[appId].multiWindow || (props?.path !== undefined && w.props.path === props.path)),
+    );
     if (existing) {
       update(set, existing.id, (w) => ({
         ...w,

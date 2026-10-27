@@ -1,4 +1,5 @@
-import { apps, type AppId } from "@/lib/apps/registry";
+import { openPath } from "@/lib/apps/open-path";
+import { apps, namedApps, type AppId } from "@/lib/apps/registry";
 import { follow, list, normalize, resolve } from "@/lib/fs/resolve";
 import type { DirNode, FsNode } from "@/lib/fs/types";
 import { unwrap } from "./unwrap";
@@ -125,16 +126,9 @@ export const COMMANDS: Record<string, Command> = {
       const appId = findApp(target);
       if (appId) return opening(apps[appId].title, { type: "open", appId });
 
-      const node = resolve(tree, target, cwd);
-      const real = node && follow(tree, node);
-      if (!real) return fail(`open: ${target}: no such app, file or directory`);
-      if (real.type === "dir") return opening(real.name, { type: "open", appId: "finder", props: { path: real.path } });
-      if (typeof real.meta.href === "string") return opening(real.name, { type: "url", href: real.meta.href });
-      if (real.path.startsWith("~/notes/")) {
-        return opening(real.name, { type: "open", appId: "notes", props: { path: real.path } });
-      }
-      // The Markdown viewer arrives with Finder (TASKS.md 7).
-      return fail(`open: no viewer for ${real.name} yet. Try: cat ${target}`);
+      const launch = openPath(tree, target, cwd);
+      if (!launch) return fail(`open: ${target}: no such app, file or directory`);
+      return opening(target.replace(/\/+$/, "").split("/").pop() || target, launch);
     },
   },
   resume: {
@@ -182,7 +176,7 @@ export function runCommand(input: string, ctx: Ctx): Result {
 
 export function findApp(name: string): AppId | undefined {
   const lower = name.toLowerCase();
-  return (Object.keys(apps) as AppId[]).find((id) => id === lower);
+  return namedApps.find((id) => id === lower);
 }
 
 function opening(name: string, effect: Effect): Result {

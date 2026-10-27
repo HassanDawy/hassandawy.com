@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { dir, link } from "./nodes";
+import { slugify, tagsOf } from "./tags";
 import type { DirNode, FsNode, SkillsConfig } from "./types";
 
 // Builds ~/skills from the `skills` and `methods` lists in project and
@@ -42,19 +43,6 @@ export function buildSkills(contentDir: string, work: FsNode[]): DirNode {
     });
 
   return dir("~/skills", { ...config }, children);
-}
-
-/** Tags from frontmatter, skipping visible placeholders like "[ADD SKILLS]". */
-export function tagsOf(value: unknown): string[] {
-  if (!Array.isArray(value)) return [];
-  return value.filter((t): t is string => typeof t === "string" && !t.startsWith("["));
-}
-
-export function slugify(tag: string): string {
-  return tag
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-|-$/g, "");
 }
 
 function readConfig(file: string): SkillsConfig {

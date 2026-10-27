@@ -1,9 +1,9 @@
 // Checks the real content/ folder, so a malformed Markdown file fails `pnpm test`
 // with a clear message instead of breaking a window at runtime.
 import { describe, expect, it } from "vitest";
-import { tagsOf } from "./build-skills";
 import { buildTree } from "./build-tree";
 import { resolve } from "./resolve";
+import { tagsOf } from "./tags";
 import type { DirNode, FsNode, SkillsConfig } from "./types";
 
 const tree = buildTree();

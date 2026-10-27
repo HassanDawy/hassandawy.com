@@ -71,9 +71,11 @@ describe("commands", () => {
       { type: "open", appId: "finder", props: { path: "~/projects/fed-signal" } },
     ]);
     expect(run("open 2026-01-01-hi.md", "~/notes").effects).toEqual([
-      { type: "open", appId: "notes", props: { path: "~/notes/2026-01-01-hi.md" } },
+      { type: "open", appId: "viewer", props: { path: "~/notes/2026-01-01-hi.md" } },
     ]);
     expect(run("open resume.pdf").effects).toEqual([{ type: "url", href: "/resume.pdf" }]);
+    expect(run("open projects/fed-signal/about.md").effects?.[0]).toMatchObject({ appId: "viewer" });
+    expect(run("open viewer").effects).toBeUndefined();
     expect(run("open nope").effects).toBeUndefined();
   });
 
