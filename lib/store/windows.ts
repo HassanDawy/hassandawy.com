@@ -113,6 +113,9 @@ export const useWindows = create<WindowStore>()((set, get) => ({
   setProps: (id, patch) => update(set, id, (w) => ({ ...w, props: { ...w.props, ...patch } })),
 
   setViewport: (w, h) => {
+    // A layer that is not laid out yet, or hidden below 768px, measures 0×0;
+    // clamping to that would squash every window to its minimum size.
+    if (w <= 0 || h <= 0) return;
     const viewport = { w, h };
     set({
       viewport,

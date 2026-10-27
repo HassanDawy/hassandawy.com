@@ -73,6 +73,13 @@ Other commands:
 raises the GitHub API rate limit. If a fetch fails, the project shows its
 `about.md` and a link to the repo, and the build continues.
 
+## Deploy
+
+Vercel builds every push: `main` goes to production and other branches get a
+preview URL. The Vercel project needs the environment variable
+`ENABLE_EXPERIMENTAL_COREPACK=1`, so it installs with the pnpm version pinned
+in `package.json`. Older pnpm versions reject this repo's `pnpm-workspace.yaml`.
+
 ## Edit the content
 
 To publish a note, add a Markdown file and push:

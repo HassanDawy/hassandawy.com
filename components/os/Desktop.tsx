@@ -2,7 +2,6 @@
 
 import { useEffect } from "react";
 import type { AppId } from "@/lib/apps/registry";
-import { DESKTOP_QUERY } from "@/lib/breakpoints";
 import { FsProvider } from "@/lib/fs/provider";
 import type { DirNode } from "@/lib/fs/types";
 import { useWindows, type WindowProps } from "@/lib/store/windows";
@@ -19,20 +18,11 @@ export interface InitialWindow {
 
 export function Desktop({ tree, initial }: { tree: DirNode; initial?: InitialWindow }) {
   // The Terminal greets visitors on first load, unless a deep link asked for a window.
-  // Below 768px the desktop is hidden (see DesktopPage), so wait until it shows.
   useEffect(() => {
-    const media = window.matchMedia(DESKTOP_QUERY);
-    function start() {
-      if (!media.matches) return;
-      media.removeEventListener("change", start);
-      const { windows, open } = useWindows.getState();
-      if (windows.length) return;
-      if (initial) open(initial.appId, initial.props);
-      else open("terminal");
-    }
-    media.addEventListener("change", start);
-    start();
-    return () => media.removeEventListener("change", start);
+    const { windows, open } = useWindows.getState();
+    if (windows.length) return;
+    if (initial) open(initial.appId, initial.props);
+    else open("terminal");
   }, [initial]);
 
   return (

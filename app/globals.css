@@ -37,3 +37,28 @@ body {
   color: var(--color-menubar-text);
   font-family: var(--font-sans);
 }
+
+/* Boot screen (components/os/BootScreen.tsx): the bar fills in 0.85s, then the
+   screen fades out by 1.2s. Hidden on repeat visits and for reduced motion. */
+@keyframes boot-fill {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+@keyframes boot-out {
+  to { opacity: 0; visibility: hidden; }
+}
+.boot {
+  animation: boot-out 0.25s ease-in 0.95s forwards;
+}
+.boot-bar {
+  transform-origin: left;
+  animation: boot-fill 0.85s cubic-bezier(0.3, 0.6, 0.4, 1) forwards;
+}
+html[data-booted] .boot {
+  display: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .boot {
+    display: none;
+  }
+}

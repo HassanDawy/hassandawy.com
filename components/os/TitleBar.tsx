@@ -16,14 +16,14 @@ interface TitleBarProps {
 export function TitleBar({ title, dark, active, maximized, onClose, onMinimize, onToggleMaximize }: TitleBarProps) {
   return (
     <div
-      className={`window-drag-handle flex h-10 shrink-0 items-center gap-2 px-3.5 ${
+      className={`window-drag-handle flex h-10 shrink-0 items-center gap-2 px-2 ${
         dark
           ? "bg-terminal-titlebar text-[#A9B1BD]"
           : "bg-window-titlebar border-window-border border-b text-[#3A3D44]"
       }`}
       onDoubleClick={onToggleMaximize}
     >
-      <div className="window-no-drag group flex items-center gap-2">
+      <div className="window-no-drag group flex items-center">
         <Light
           label="Close"
           color={active ? "bg-light-close" : "bg-[#9AA0A8]/50 group-hover:bg-light-close"}
@@ -43,7 +43,7 @@ export function TitleBar({ title, dark, active, maximized, onClose, onMinimize, 
           onClick={onToggleMaximize}
         />
       </div>
-      <span className={`ml-4 truncate text-[13px] ${dark ? "" : "font-semibold"} ${active ? "" : "opacity-60"}`}>
+      <span className={`ml-2.5 truncate text-[13px] ${dark ? "" : "font-semibold"} ${active ? "" : "opacity-60"}`}>
         {title}
       </span>
     </div>
@@ -51,6 +51,7 @@ export function TitleBar({ title, dark, active, maximized, onClose, onMinimize, 
 }
 
 // Like macOS: grey in background windows (see `color`), glyphs appear on hover.
+// The dot is 12px; the button around it is 24px, the minimum tap target size.
 function Light({
   label,
   color,
@@ -69,9 +70,11 @@ function Light({
       title={label}
       onClick={onClick}
       onDoubleClick={(e) => e.stopPropagation()}
-      className={`flex size-3 items-center justify-center rounded-full ${color} focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent`}
+      className="flex size-6 items-center justify-center rounded-full focus-visible:outline-2 focus-visible:outline-accent"
     >
-      <Glyph size={8} strokeWidth={3} className="text-black/55 opacity-0 group-hover:opacity-100" aria-hidden />
+      <span className={`flex size-3 items-center justify-center rounded-full ${color}`}>
+        <Glyph size={8} strokeWidth={3} className="text-black/55 opacity-0 group-hover:opacity-100" aria-hidden />
+      </span>
     </button>
   );
 }

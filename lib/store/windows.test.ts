@@ -163,6 +163,14 @@ describe("move, resize and maximize", () => {
     expect(w.y + w.h).toBeLessThanOrEqual(700);
   });
 
+  it("ignores an empty viewport (a hidden or not yet laid out desktop)", () => {
+    const a = store().open("notes");
+    const before = win(a);
+    store().setViewport(0, 0);
+    expect(win(a)).toEqual(before);
+    expect(store().viewport.w).toBeGreaterThan(0);
+  });
+
   it("merges props without touching focus or geometry", () => {
     const a = store().open("terminal", { keep: 1 });
     const before = { ...win(a) };
